@@ -7,9 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
-import java.util.Objects;
 
 import static constants.AEOConstants.BASE_URL;
 
@@ -54,20 +56,37 @@ public class AddItemsTests {
     @Test
     void addItemTest() throws InterruptedException {
         driver.get(BASE_URL);
-        Thread.sleep(5000);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
         //find locator accept all to remove
         List<WebElement> popapClose = driver.findElements(By.id("onetrust-accept-btn-handler"));
         if (popapClose.size() > 0) {
             popapClose.get(0).click();
         }
         //hovering
-        WebElement womenCategory = driver.findElement(By.cssSelector("a[data-text = 'Women']"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(womenCategory).perform();
-        Thread.sleep(2000);
-        WebElement shoesSubCategory = driver.findElement(By.xpath("//a[@data-text = 'Women']/..//a[@data-item-link and text() = 'Shoes']"));
+        WebElement womenCategory = driver.findElement(By.xpath("//a[@data-text = 'Women']"));
+        new Actions(driver)
+                .moveToElement(womenCategory)
+                .perform();
+        WebElement shoesSubCategory = longWait.
+                until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@data-text = 'Women']/..//a[@data-item-link and text() = 'Shoes']")));
         shoesSubCategory.click();
-        Thread.sleep(5000);
+
+        List<WebElement> products = driver.findElements(By.xpath("//div[@data-product-id]"));
+        WebElement firstProduct = products.get(0);
+        WebElement firstProductName = firstProduct.findElement(By.xpath(".//h3[@data-test-name]"));
+        WebElement firstProductListPrice = firstProduct.findElement(By.xpath(".//div[@data-test-list-price]"));
+
+        //Need to be used to compare in future
+        String firstProductNameValue = firstProductName.getText();
+        String firstProductListPriceValue = firstProductListPrice.getText();
+
+        new Actions(driver)
+                .moveToElement(firstProduct)
+                .perform();
+        WebElement quickShop = firstProduct.findElement(By.xpath(".//a[text() = 'Quick Shop']"));
+        quickShop.click();
     }
 
 
