@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,12 +59,8 @@ public class AddItemsTests {
         driver.get(BASE_URL);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
         //find locator accept all to remove
-        List<WebElement> popapClose = driver.findElements(By.id("onetrust-accept-btn-handler"));
-        if (popapClose.size() > 0) {
-            popapClose.get(0).click();
-        }
+        closeOneTrustCookies();
         //hovering
         WebElement womenCategory = driver.findElement(By.xpath("//a[@data-text = 'Women']"));
         new Actions(driver)
@@ -87,7 +84,36 @@ public class AddItemsTests {
                 .perform();
         WebElement quickShop = firstProduct.findElement(By.xpath(".//a[text() = 'Quick Shop']"));
         quickShop.click();
+
+        closeWeekendPopupWorking();
+        Thread.sleep(5000);
     }
 
+    private void closeOneTrustCookies() {
+        List<WebElement> popapClose = driver.findElements(By.id("onetrust-accept-btn-handler"));
+        if (popapClose.size() > 0) {
+            popapClose.get(0).click();
+        }
+    }
 
+    private void closeWeekendPopupWorking() throws InterruptedException {
+        Thread.sleep(3000);
+        try {
+            WebElement parentForShadowRoot = driver.findElement(By.xpath("//div"));
+            SearchContext shadowRoot = parentForShadowRoot.getShadowRoot();
+            shadowRoot.findElement(By.cssSelector("button.close")).click();
+        } catch (Exception ignore) {
+        }
+    }
+
+    private void closeWeekendPopup() throws InterruptedException {
+        Thread.sleep(5000);
+        WebElement shadowDiv = driver.findElement(By.xpath("//body/div"));
+        SearchContext shadowRoot = shadowDiv.getShadowRoot();
+//        List<WebElement> closePopapShadowDom = shadowRoot.findElements(By.xpath(".//button[@aria-label='Close']"));
+        List<WebElement> closePopapShadowDom = shadowRoot.findElements(By.cssSelector("button[@aria-label='Close']"));
+        if (!closePopapShadowDom.isEmpty()) {
+            closePopapShadowDom.get(0).click();
+        }
+    }
 }
