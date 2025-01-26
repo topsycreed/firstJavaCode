@@ -10,11 +10,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.CategoryPage;
+import pages.HomePage;
 
 import java.time.Duration;
 import java.util.List;
 
 import static constants.AEOConstants.BASE_URL;
+import static constants.AEOConstants.HOME_PAGE_TITLE;
 
 public class AddItemsTests {
     WebDriver driver;
@@ -28,6 +31,28 @@ public class AddItemsTests {
     void tearDown() throws InterruptedException {
         Thread.sleep(2000);
         driver.quit();
+    }
+
+    @Test
+    void openHomePagePOMTest() {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+
+        Assertions.assertEquals(BASE_URL, homePage.getUrl());
+        Assertions.assertEquals(HOME_PAGE_TITLE, homePage.getTitle());
+    }
+
+    @Test
+    void openCategoryPagePOMTest() {
+        HomePage homePage = new HomePage(driver);
+        homePage.open();
+        CategoryPage categoryPage = homePage.openWomenCategory();
+//        homePage.openMenCategory();
+//        homePage.openJeanCategory();
+//        homePage.openCategory("Women");
+        categoryPage.getUrl();
+
+        Assertions.assertEquals(BASE_URL + "c/women/womens?pagetype=clp", homePage.getUrl());
     }
 
     @Test
@@ -87,6 +112,35 @@ public class AddItemsTests {
 
         closeWeekendPopupWorking();
         Thread.sleep(5000);
+
+        selectFirstAvailableSize();
+        driver.findElement(By.xpath("//button[@name = 'add-to-bag']")).click();
+        WebElement title = longWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@data-test-sidetray = 'added-to-bag']//h2")));
+
+        //assertions
+        Assertions.assertEquals("Added to bag!", title.getText());
+        driver.findElement(By.name("viewBag")).click();
+        longWait.until(ExpectedConditions.textToBe(By.xpath("//h1"), "Shopping Bag"));
+
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@title = 'PayPal']"));
+        driver.switchTo().frame(iframe);
+        WebElement payPalButton = driver.findElement(By.xpath("//div[@data-funding-source = 'paypal']"));
+        new Actions(driver).moveToElement(payPalButton).perform();
+        Thread.sleep(1000);
+        payPalButton.click();
+        //"//img[contains(@role, 'paypal-logo')]"
+        Thread.sleep(5000);
+    }
+
+    private void selectFirstAvailableSize() {
+        driver.findElement(By.xpath("//div[@data-test-select-size]")).click();
+        List<WebElement> allSizes = driver.findElements(By.xpath("//li[@data-value]"));
+        for (WebElement size : allSizes) {
+            if (!size.getAttribute("class").contains("visually-disabled")) {
+                size.click();
+                break;
+            }
+        }
     }
 
     private void closeOneTrustCookies() {
