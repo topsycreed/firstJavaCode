@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Objects;
+
 public class User {
     private long id;
     private String username;
@@ -54,5 +56,19 @@ public class User {
 
     public int getUserStatus() {
         return userStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", userStatus=" + userStatus +
+                '}';
     }
 }

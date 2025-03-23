@@ -22,6 +22,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.27.3'
     testImplementation 'io.rest-assured:rest-assured:5.5.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
+    implementation 'io.qameta.allure:allure-rest-assured:2.29.1'
 }
 
 test {

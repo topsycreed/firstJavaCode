@@ -1,5 +1,6 @@
 package apiTests;
 
+import controller.UserController;
 import dto.User;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
