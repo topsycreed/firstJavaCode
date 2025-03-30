@@ -6,11 +6,15 @@ import dto.User;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Tag("userController")
+@Tags({@Tag("api"), @Tag("smoke")})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PetUserTests {
     UserController userController;
@@ -21,6 +25,7 @@ class PetUserTests {
     }
 
     @Test
+    @Tag("create")
     void createUserSmokeTest() {
         Response response = userController.addDefaultUser();
 
