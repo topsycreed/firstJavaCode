@@ -1,0 +1,6 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Sun Mar 30 10:29:33 GMT 2025","Sun Mar 30 10:29:33 GMT 2025","675","","apiTests.PetUserTests","","apiTests.PetUserTests","createUserTest","createUserTest()",""
+"passed","Sun Mar 30 10:29:31 GMT 2025","Sun Mar 30 10:29:33 GMT 2025","2170","","apiTests.PetUserTests","","apiTests.PetUserTests","createUserWithDTOTest","createUserWithDTOTest()",""
+"passed","Sun Mar 30 10:29:34 GMT 2025","Sun Mar 30 10:29:34 GMT 2025","410","","apiTests.PetUserTests","","apiTests.PetUserTests","getUserTest","getUserTest()",""
+"passed","Sun Mar 30 10:29:34 GMT 2025","Sun Mar 30 10:29:35 GMT 2025","424","","apiTests.PetUserTests","","apiTests.PetUserTests","deleteUserTest","deleteUserTest()",""
+"passed","Sun Mar 30 10:29:33 GMT 2025","Sun Mar 30 10:29:34 GMT 2025","227","","apiTests.PetUserTests","","apiTests.PetUserTests","createUserSmokeTest","createUserSmokeTest()",""
