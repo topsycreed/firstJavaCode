@@ -26,5 +26,7 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform() {
+        includeTags 'userController'
+    }
 }
