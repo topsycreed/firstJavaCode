@@ -1,7 +1,9 @@
 package pages;
 
 import compoments.Header;
+import configs.TestConfig;
 import io.qameta.allure.Step;
+import org.aeonbits.owner.ConfigFactory;
 import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +20,7 @@ import static constants.AEOConstants.BASE_URL;
 public class HomePage extends BasePage {
     Header header;
     AllureSteps allureSteps = new AllureSteps();
+    TestConfig testConfig = ConfigFactory.create(TestConfig.class, System.getProperties());
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -26,7 +29,7 @@ public class HomePage extends BasePage {
 
     @Step("Open homePage")
     public void open() {
-        driver.get(BASE_URL);
+        driver.get(testConfig.getBaseUrl());
     }
 
     @Step("Open Women Category page")
